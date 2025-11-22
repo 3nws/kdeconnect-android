@@ -17,9 +17,9 @@ class KdeConnectBroadcastReceiver : BroadcastReceiver() {
         // Log.e("KdeConnect", "Broadcast event: "+intent.getAction());
 
         val action = intent.action
-
+    
         when (action) {
-            Intent.ACTION_MY_PACKAGE_REPLACED -> {
+            Intent.ACTION_MY_PACKAGE_REPLACED, "KDE_NOTIFICATION_DISMISSED" -> {
                 Log.i("KdeConnect", "MyUpdateReceiver")
                 BackgroundService.Start(context)
             }

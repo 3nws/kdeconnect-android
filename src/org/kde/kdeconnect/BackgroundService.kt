@@ -180,6 +180,20 @@ class BackgroundService : Service() {
             setGroup("BackgroundService")
         }
 
+        val dismissIntent = Intent(this, KdeConnectBroadcastReceiver::class.java).apply {
+            action = "KDE_NOTIFICATION_DISMISSED"
+            putExtra("notificationId", FOREGROUND_NOTIFICATION_ID)
+        }
+        
+        val dismissPendingIntent = PendingIntent.getBroadcast(
+            this,
+            0,
+            dismissIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        notification.setDeleteIntent(dismissPendingIntent)
+
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             // Pre-oreo, the notification will have an empty title line without this
             notification.setContentTitle(getString(R.string.kde_connect))
